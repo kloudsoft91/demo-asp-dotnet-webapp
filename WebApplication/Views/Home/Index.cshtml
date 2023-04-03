@@ -1,0 +1,210 @@
+﻿@model ParkingWebApplication.Models.ParkingCostModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <style type="text/css">
+        body {
+            font-family: Arial;
+            font-size: 10pt;
+        }
+
+        table {
+            border: 1px solid #ccc;
+            border-collapse: collapse;
+            background-color: #fff;
+        }
+
+            table th {
+                background-color: #B8DBFD;
+                color: #333;
+                font-weight: bold;
+            }
+
+            table th, table td {
+                padding: 5px;
+                border: 1px solid #ccc;
+            }
+
+            table, table table td {
+                border: 0px solid #ccc;
+            }
+
+        input[type=text], select {
+            width: 150px;
+        }
+
+        td textarea {
+            /*resize: none;*/
+            width: 30em;
+            height: 7em;
+            /*height: 1000%;*/
+        }
+
+        .field-validation-error {
+            color: #E80C4D;
+            font-weight: bold;
+        }
+
+        .field-validation-valid {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Car Parking</h1>
+
+    <h5>No One Can Park Here For More Than 24 Hours</h5>
+
+    <table cellpadding="0" cellspacing="0">
+        <tr>
+            <td colspan="2" align="center">
+                @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+                {
+                    <table cellpadding="0" cellspacing="0">
+                        <tr>
+                            <th colspan="2" align="center">Parking Details</th>
+                        </tr>
+                        <tr>
+                            <th colspan="2" align="left">
+                                PARKING AVAILABLE
+                                <p>General Public - $2.00 per hour</p>
+                                <p>Staff - $2.00 for first ten hours and $2.00 per hour thereafter</p>
+                                @*<p>Student - $1.00 per hour</p>*@
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>Please enter your Car Registration: </td>
+                            <td>
+                                @Html.EditorFor(model => model.Rego, new { htmlAttributes = new {@class = "textbox" } })
+                                @Html.ValidationMessageFor(model => model.Rego)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Please select a type: </td>
+                            <td>
+                                @Html.DropDownListFor(model => model.Type, new List<SelectListItem>
+                               { new SelectListItem{Text="General public", Value="General"},
+                                 new SelectListItem{Text="Staff", Value="Staff"},
+                                 /*new SelectListItem{Text="Student", Value="Student"},*/}, "Please select")
+                                @Html.ValidationMessageFor(model => model.Type)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2">Hours to park: </td>
+                            <td>
+                                @Html.EditorFor(model => model.ParkingStart, new { htmlAttributes = new { @class = "datepicker" } })
+                                @Html.ValidationMessageFor(model => model.ParkingStart)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                @Html.EditorFor(model => model.ParkingEnd, new { htmlAttributes = new { @class = "datepicker" } })
+                                @Html.ValidationMessageFor(model => model.ParkingEnd)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><input type="submit" value="Book" /></td>
+                        </tr>
+                        <tr>
+                            <td>Total cost ($)</td>
+                            <td>@Html.TextBox("result", (string)ViewBag.result, new { @readonly="readonly" })</td>
+                        </tr>
+                    </table>
+                }
+            </td>
+            <td align="left" valign="top">
+                <table cellpadding="0" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th colspan="4">Current Bookings</th>
+                        </tr>
+                        <tr>
+                            <th>Car Rego</th>
+                            <th>Booking Type</th>
+                            <th>Booking Start</th>
+                            <th>Booking End</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bookingList">
+
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+
+@section scripts {
+<script type="text/javascript" src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+<script type="text/javascript">
+   $(document).ready(function () {
+       $(".datepicker").datepicker({
+          dateFormat: "dd-mm-yy",
+          changemonth: true,
+          changeyear: true
+          });
+   });
+</script>
+<script type="text/javascript">
+    //reset form on page reload
+    window.onload = function () {
+        document.forms.reset();
+    };
+
+    // function to dynamically populate rows in a table
+    function loadTable(table, tableData) {
+        // clear the table first
+        let tableBody = document.getElementById(table);
+        tableBody.innerHTML = '';
+        // load the json data
+        if (tableData === null) {
+            return null;
+        }
+        // read and loop through the elements
+        let element = 0;
+        for (let entry in tableData) {
+            let booking = tableData[element];
+            let row = document.createElement('tr');
+            // Create rego cell
+            let cell1 = document.createElement('td');
+            let textNode1 = document.createTextNode(booking['rego']);
+            cell1.appendChild(textNode1);
+            row.appendChild(cell1);
+            // Create type cell
+            let cell2 = document.createElement('td');
+            let textNode2 = document.createTextNode(booking['type']);
+            cell2.appendChild(textNode2);
+            row.appendChild(cell2);
+            // Create parking start cell
+            let cell3 = document.createElement('td');
+            let textNode3 = document.createTextNode(booking['parkingStart']);
+            cell3.appendChild(textNode3);
+            row.appendChild(cell3);
+            // Create parking end cell
+            let cell4 = document.createElement('td');
+            let textNode4 = document.createTextNode(booking['parkingEnd']);
+            cell4.appendChild(textNode4);
+            row.appendChild(cell4);
+            // Append row
+            tableBody.appendChild(row);
+            element = element + 1;
+        }
+        return 0;
+    }
+
+    // fetch the booking data to fill the bookings table
+    fetch('/api/booking').then(function (response) {
+        return response.text();
+    }).then(function (data) {
+        loadTable("bookingList", JSON.parse(data));
+    });
+</script>
+}
+
+</html>
