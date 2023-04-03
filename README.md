@@ -7,14 +7,14 @@ This is an extension of a project based a C# tutorial course. The tutorial was e
   email: nayakaran@gmail.com
 
 # Getting Started
-1.	[Build and Test](#build)
-2.	[Environment Variables](#env)
-3.	[API Reference](#api)
+1.	[Build and Test](#build-and-test)
+2.	[Environment Variables](#environment-variables)
+3.	[API Reference](#api-reference)
 
-# Build and Test {#build}
+# Build and Test
 To build and run this project, run a docker image build and run the container with the following env vars.
 
-# Environment Variables {#env}
+# Environment Variables
 
 To run this project, you will need to add the following environment variables to your docker container
 
@@ -28,7 +28,7 @@ To run this project, you will need to add the following environment variables to
 
 `DBNAME` - The name of the database to connect to
 
-# API Reference {#api}
+# API Reference
 
 ## Get all items
 
