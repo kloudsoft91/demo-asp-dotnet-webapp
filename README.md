@@ -1,18 +1,54 @@
 # Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+This is an extension of a project based a C# tutorial course. The tutorial was extended to connect to a mysql database and store / retrieve some data. Due to this being a learning / sample project, the documentation is limited / a work in progress. The mysql db dockerfile is not part of this project.
+
+# Authors
+
+- Name: Karan Nayak
+  email: nayakaran@gmail.com
 
 # Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+1.	[Build and Test](#build)
+2.	[Environment Variables](#env)
+3.	[API Reference](#api)
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+# Build and Test {#build}
+To build and run this project, run a docker image build and run the container with the following env vars.
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+# Environment Variables {#env}
+
+To run this project, you will need to add the following environment variables to your docker container
+
+`DBHOST` - The fqdn of the mysql db host / container
+
+`DBPORT` - The port to use the db connection, note: this project uses the MYSQLX plugin to interact with mysql, which defaults on 33060 (not 3306)
+
+`DBUSER` - The username to use for the db connection
+
+`DBPASS` - The password for the database user
+
+`DBNAME` - The name of the database to connect to
+
+# API Reference {#api}
+
+## Get all items
+
+```http
+  GET /api/booking
+```
+
+## Post item
+
+```http
+  POST /api/booking
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `ParkingStart`      | `DateTime` | **Required**. Start date/time of parking |
+| `ParkingEnd`      | `DateTime` | **Required**. End date/time of parking |
+| `Type`      | `string` | **Required**. Type of booking: Staff / General |
+| `Rego`      | `string` | **Required**. Registration of car |
+
 
 If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
 - [ASP.NET Core](https://github.com/aspnet/Home)
