@@ -12,11 +12,15 @@ This is an extension of a project based a C# tutorial course. The tutorial was e
 3.	[API Reference](#api-reference)
 
 # Build and Test
-To build and run this project, run a docker image build and run the container with the following env vars.
+To build and run this project, run a docker image build and run the container with the following env vars. You need to be in the parent directory of the repo when building and specify the Docker path, something like this would work:
+
+```bash
+  docker build -f WebApplication/Dockerfile --force-rm -t parking-asp-dotnet-app:latest .
+```
 
 # Environment Variables
 
-To run this project, you will need to add the following environment variables to your docker container
+To run this project, you will need to add the following environment variables to run your docker container. You can modify the Dockerfile specified in the above section to include environment variables / build arguments or provide the environment variables when you run the container.
 
 `DBHOST` - The fqdn of the mysql db host / container
 
