@@ -3,8 +3,7 @@ This is an extension of a project based a C# tutorial course. The tutorial was e
 
 # Authors
 
-- Name: Karan Nayak
-  email: nayakaran@gmail.com
+- email: seabird-0header@icloud.com
 
 # Getting Started
 1.	[Build and Test](#build-and-test)
