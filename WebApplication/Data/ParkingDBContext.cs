@@ -2,6 +2,7 @@
 using MySqlX.XDevAPI;
 using MySql.Data.MySqlClient;
 using ParkingWebApplication.Models;
+using System.Net.NetworkInformation;
 
 namespace ParkingWebApplication.Data
 {
@@ -22,6 +23,8 @@ namespace ParkingWebApplication.Data
 
         public ParkingDBContext()
         {
+            Console.Write(_connectionString);
+            Console.Write(new Ping().Send(_db_hostname, 10000).RoundtripTime);
             var session = MySQLX.GetSession(_connectionString);
             string createTable = "CREATE TABLE IF NOT EXISTS Bookings ( Id  INT NOT NULL AUTO_INCREMENT, Rego LONGTEXT CHARSET utf8mb4, Type LONGTEXT CHARSET utf8mb4, ParkingStart DATETIME, ParkingEnd DATETIME, PRIMARY KEY (Id) ) ENGINE=InnoDB;";
             var result = session.SQL(createTable.ToString()).Execute();
