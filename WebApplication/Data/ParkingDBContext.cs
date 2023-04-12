@@ -24,7 +24,11 @@ namespace ParkingWebApplication.Data
         public ParkingDBContext()
         {
             Console.Write(_connectionString);
-            Console.Write(new Ping().Send(_db_hostname, 10000).RoundtripTime);
+            try {
+                Console.Write(new Ping().Send(_db_hostname, 10000).RoundtripTime);
+            } catch {
+                Console.Write("Unable to run ping or ping failed");
+            }
             var session = MySQLX.GetSession(_connectionString);
             string createTable = "CREATE TABLE IF NOT EXISTS Bookings ( Id  INT NOT NULL AUTO_INCREMENT, Rego LONGTEXT CHARSET utf8mb4, Type LONGTEXT CHARSET utf8mb4, ParkingStart DATETIME, ParkingEnd DATETIME, PRIMARY KEY (Id) ) ENGINE=InnoDB;";
             var result = session.SQL(createTable.ToString()).Execute();
