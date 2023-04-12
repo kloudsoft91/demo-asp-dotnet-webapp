@@ -49,9 +49,12 @@ namespace ParkingWebApplication.Controllers
                 {
                     kiosk = new GenKioskWrap(startTime, endTime);
                 }
-                new ParkingDBContext().Insert(ConvertToBooking(model));
-                ViewBag.result = kiosk.FindParkingAmount().ToString();
-
+                try {
+                    ViewBag.result = kiosk.FindParkingAmount().ToString();
+                    new ParkingDBContext().Insert(ConvertToBooking(model));
+                } catch {
+                    ViewBag.result = "Unable to book over 24 hrs";
+                }
             }
             return View();
         }
