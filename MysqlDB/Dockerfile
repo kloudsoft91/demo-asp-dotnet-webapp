@@ -1,5 +1,5 @@
 FROM mysql:latest
 
-ADD schema.sql /docker-entrypoint-initdb.d
+ADD MysqlDB/schema.sql /docker-entrypoint-initdb.d
 
 EXPOSE 33060
