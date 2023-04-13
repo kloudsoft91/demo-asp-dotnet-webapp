@@ -56,6 +56,9 @@ namespace ParkingWebApplication.Controllers
                     ViewBag.result = "Unable to book over 24 hrs";
                 }
             }
+            else {
+                ViewBag.result = "Please enter all parameters for booking";
+            }
             return View();
         }
     }
