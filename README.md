@@ -1,5 +1,5 @@
 # Introduction 
-This is an extension of a project based a C# tutorial course. The tutorial was extended to connect to a mysql database and store / retrieve some data. The app is basically an ASP.Net MVC app that allws clients to enter a parking booking, calculates the cost to park and view current bookings. Due to this being a learning / sample project, the documentation is a work in progress. The mysql db dockerfile is not part of this project.
+This is an extension of a tutorial based on a C# course. The tutorial was extended to connect to a mysql database and store / retrieve some data. The app is basically an ASP.Net MVC app that allows clients to enter a parking booking, calculates the cost to park and view current bookings. Due to this being a learning / sample project, the documentation is a work in progress. 
 
 # Authors
 
