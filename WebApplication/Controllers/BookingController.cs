@@ -34,11 +34,11 @@ namespace ParkingWebApplication.Controllers
             try
             {
                 ParkingDBContext context = HttpContext.RequestServices.GetService(typeof(ParkingWebApplication.Data.ParkingDBContext)) as ParkingDBContext;
-                return OkObjectResult(context.BookingByRego(id));
+                return new OkObjectResult(context.BookingByRego(id));
             }
-            catch EmptyQueryResultExceptionException
+            catch (EmptyQueryResultExceptionException)
             {
-                return OkObjectResult($"No results found for Rego {id}");
+                return new OkObjectResult($"No results found for Rego {id}");
             }
             catch
             {
@@ -49,16 +49,16 @@ namespace ParkingWebApplication.Controllers
         // GET api/booking/type/id
         [HttpGet]
         [Route("type/{id}")]
-        public IActionResult GetByRego(string id)
+        public IActionResult GetByType(string id)
         {
             try
             {
                 ParkingDBContext context = HttpContext.RequestServices.GetService(typeof(ParkingWebApplication.Data.ParkingDBContext)) as ParkingDBContext;
-                return OkObjectResult(context.BookingByType(id));
+                return new OkObjectResult(context.BookingByType(id));
             }
-            catch EmptyQueryResultExceptionException
+            catch (EmptyQueryResultExceptionException)
             {
-                return OkObjectResult($"No results found for Type {id}");
+                return new OkObjectResult($"No results found for Type {id}");
             }
             catch
             {

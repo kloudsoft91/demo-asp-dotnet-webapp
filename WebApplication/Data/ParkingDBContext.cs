@@ -81,7 +81,7 @@ namespace ParkingWebApplication.Data
             }
             else
             {
-                throw new EmptyQueryResultExceptionException("Query result was empty")
+                throw new EmptyQueryResultExceptionException("Query result was empty");
             }
         }
 
@@ -110,7 +110,7 @@ namespace ParkingWebApplication.Data
             }
             else
             {
-                throw new EmptyQueryResultExceptionException("Query result was empty")
+                throw new EmptyQueryResultExceptionException("Query result was empty");
             }
         }
 
