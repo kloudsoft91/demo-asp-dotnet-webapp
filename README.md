@@ -6,13 +6,23 @@ This is an extension of a tutorial based on a C# course. The tutorial was extend
 - email: seabird-0header@icloud.com
 
 # Getting Started
-1.	[Build and Test](#build-and-test)
-2.	[Environment Variables](#environment-variables)
-3.	[API Reference](#api-reference)
+
+1. **[Build and Test](#build-and-test)**
+2. **[Environment Variables](#environment-variables)**
+    - [MYSQL DB Container ENV Vars](#mysql-db-container-env-vars)
+    - [Application Container ENV Vars](#application-container-env-vars)
+3. **[API Reference](#api-reference)**
+    - [Get all items](#get-all-items)
+    - [Get items by Rego](#get-items-by-rego)
+    - [Get items by booking Type](#get-items-by-booking-type)
+    - [Post item](#post-item)
 
 # Build and Test
 To build and run this project, run a docker image build and run the container with the following env vars. You need to be in the parent directory of the repo when building and specify the Docker path, something like this would work:
 
+```bash
+  docker build -f MysqlDB/Dockerfile --force-rm -t parking-asp-dotnet-mysqldb:latest .
+```
 ```bash
   docker build -f WebApplication/Dockerfile --force-rm -t parking-asp-dotnet-app:latest .
 ```
@@ -20,6 +30,21 @@ To build and run this project, run a docker image build and run the container wi
 # Environment Variables
 
 To run this project, you will need to add the following environment variables to run your docker container. You can modify the Dockerfile specified in the above section to include environment variables / build arguments or provide the environment variables when you run the container.
+
+## MYSQL DB Container ENV Vars
+
+See the official documentation for the MYSQL Docker container at: https://hub.docker.com/_/mysql
+The minimal required environment variables are:
+
+`MYSQL_ROOT_PASSWORD` - The root password for the Mysql instance
+
+`MYSQL_DATABASE` - Name of schema to create on db init
+
+`MYSQL_USER` - Database user to create
+
+`MYSQL_PASSWORD` - Password to set for above database user
+
+## Application Container ENV Vars
 
 `DBHOST` - The fqdn of the mysql db host / container
 
@@ -31,6 +56,8 @@ To run this project, you will need to add the following environment variables to
 
 `DBNAME` - The name of the database to connect to
 
+`ASPNETCORE_URLS` - The url:port the app should be using/listening on, e.g. value: http://*:8080
+
 # API Reference
 
 ## Get all items
@@ -38,6 +65,27 @@ To run this project, you will need to add the following environment variables to
 ```http
   GET /api/booking
 ```
+
+## Get items by Rego
+
+```http
+  GET /api/booking/rego/{id}
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `id`      | `string` | **Required**. Rego to query the DB |
+
+## Get items by booking Type
+
+```http
+  GET /api/booking/type/{id}
+```
+
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `id`      | `string` | **Required**. Booking Type to query the DB |
 
 ## Post item
 
