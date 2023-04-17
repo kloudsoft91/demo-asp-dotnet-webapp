@@ -61,7 +61,7 @@ namespace ParkingWebApplication.Data
             var bookings = new List<ParkingBooking>();
 
             var session = MySQLX.GetSession(_connectionString);
-            var result = session.SQL($"SELECT * FROM Bookings WHERE Rego = {rego} ORDER BY Id ASC;").Execute();
+            var result = session.SQL($"SELECT * FROM Bookings WHERE Rego = '{rego}' ORDER BY Id ASC;").Execute();
             var result_rows = result.FetchAll();
 
             if (result_rows?.Any() != true)
@@ -90,7 +90,7 @@ namespace ParkingWebApplication.Data
             var bookings = new List<ParkingBooking>();
 
             var session = MySQLX.GetSession(_connectionString);
-            var result = session.SQL($"SELECT * FROM Bookings WHERE Type = {bookingType} ORDER BY Id ASC;").Execute();
+            var result = session.SQL($"SELECT * FROM Bookings WHERE Type = '{bookingType}' ORDER BY Id ASC;").Execute();
             var result_rows = result.FetchAll();
 
             if (result_rows?.Any() != true)
