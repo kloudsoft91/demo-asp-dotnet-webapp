@@ -56,6 +56,64 @@ namespace ParkingWebApplication.Data
             return bookings;
         }
 
+        public List<ParkingBooking> BookingByRego(string rego)
+        {
+            var bookings = new List<ParkingBooking>();
+
+            var session = MySQLX.GetSession(_connectionString);
+            var result = session.SQL($"SELECT * FROM Bookings WHERE Rego = {rego} ORDER BY Id ASC;").Execute();
+            var result_rows = result.FetchAll();
+
+            if (result_rows?.Any() != true)
+            {
+                foreach (var row in result_rows)
+                {
+                    bookings.Add(new ParkingBooking()
+                    {
+                        Id = Convert.ToInt32(row[0]),
+                        Rego = row[1].ToString(),
+                        Type = row[2].ToString(),
+                        ParkingStart = (DateTime)row[3],
+                        ParkingEnd = (DateTime)row[4],
+                    });
+                }
+                return bookings;
+            }
+            else
+            {
+                throw new EmptyQueryResultExceptionException("Query result was empty")
+            }
+        }
+
+        public List<ParkingBooking> BookingByType(string bookingType)
+        {
+            var bookings = new List<ParkingBooking>();
+
+            var session = MySQLX.GetSession(_connectionString);
+            var result = session.SQL($"SELECT * FROM Bookings WHERE Type = {bookingType} ORDER BY Id ASC;").Execute();
+            var result_rows = result.FetchAll();
+
+            if (result_rows?.Any() != true)
+            {
+                foreach (var row in result_rows)
+                {
+                    bookings.Add(new ParkingBooking()
+                    {
+                        Id = Convert.ToInt32(row[0]),
+                        Rego = row[1].ToString(),
+                        Type = row[2].ToString(),
+                        ParkingStart = (DateTime)row[3],
+                        ParkingEnd = (DateTime)row[4],
+                    });
+                }
+                return bookings;
+            }
+            else
+            {
+                throw new EmptyQueryResultExceptionException("Query result was empty")
+            }
+        }
+
         public void Insert(ParkingBooking booking)
         {
             var session = MySQLX.GetSession(_connectionString);

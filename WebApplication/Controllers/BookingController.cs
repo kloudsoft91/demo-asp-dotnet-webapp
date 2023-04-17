@@ -26,6 +26,46 @@ namespace ParkingWebApplication.Controllers
             return new OkObjectResult(context.AllBookings());
         }
 
+        // GET api/booking/rego/id
+        [HttpGet]
+        [Route("rego/{id}")]
+        public IActionResult GetByRego(string id)
+        {
+            try
+            {
+                ParkingDBContext context = HttpContext.RequestServices.GetService(typeof(ParkingWebApplication.Data.ParkingDBContext)) as ParkingDBContext;
+                return OkObjectResult(context.BookingByRego(id));
+            }
+            catch EmptyQueryResultExceptionException
+            {
+                return OkObjectResult($"No results found for Rego {id}");
+            }
+            catch
+            {
+                return new BadRequestObjectResult("Incorrect query to API");
+            }
+        }
+
+        // GET api/booking/type/id
+        [HttpGet]
+        [Route("type/{id}")]
+        public IActionResult GetByRego(string id)
+        {
+            try
+            {
+                ParkingDBContext context = HttpContext.RequestServices.GetService(typeof(ParkingWebApplication.Data.ParkingDBContext)) as ParkingDBContext;
+                return OkObjectResult(context.BookingByType(id));
+            }
+            catch EmptyQueryResultExceptionException
+            {
+                return OkObjectResult($"No results found for Type {id}");
+            }
+            catch
+            {
+                return new BadRequestObjectResult("Incorrect query to API");
+            }
+        }
+
         // POST api/booking
         [HttpPost]
         public IActionResult Post([FromBody] ParkingBooking body)
