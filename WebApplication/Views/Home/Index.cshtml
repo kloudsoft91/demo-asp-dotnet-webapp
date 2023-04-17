@@ -56,7 +56,7 @@
     </style>
 </head>
 <body>
-    <br/><br/>
+    <br><br>
     <h1>Car Parking</h1>
 
     <h5>No One Can Park Here For More Than 24 Hours</h5>
@@ -109,7 +109,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td></td>
+                            <td><input type="reset" value="Reset" /></td>
                             <td><input type="submit" value="Book" /></td>
                         </tr>
                         <tr>
@@ -142,8 +142,8 @@
 </body>
 
 @section scripts {
-<script type="text/javascript" src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
-<script type="text/javascript">
+<script type="text/javascript" src="https://code.jquery.com/ui/1.13.1/jquery-ui.js" async></script>
+<script type="text/javascript" defer>
    $(document).ready(function () {
        $(".datepicker").datepicker({
           dateFormat: "dd-mm-yy",
@@ -152,12 +152,12 @@
           });
    });
 </script>
-<script type="text/javascript">
+<script type="text/javascript" defer>
     //reset form on page reload
-    window.onload = function () {
+    @* window.onload = function () {
         const form = document.getElementById('bookingForm');
         form.reset();
-    };
+    }; *@
 
     // function to dynamically populate rows in a table
     function loadTable(table, tableData) {
