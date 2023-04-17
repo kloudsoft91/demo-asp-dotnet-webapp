@@ -64,7 +64,7 @@ namespace ParkingWebApplication.Data
             var result = session.SQL($"SELECT * FROM Bookings WHERE Rego = '{rego}' ORDER BY Id ASC;").Execute();
             var result_rows = result.FetchAll();
 
-            if (result_rows?.Any() != true)
+            if (result_rows?.Any() == true)
             {
                 foreach (var row in result_rows)
                 {
@@ -93,7 +93,7 @@ namespace ParkingWebApplication.Data
             var result = session.SQL($"SELECT * FROM Bookings WHERE Type = '{bookingType}' ORDER BY Id ASC;").Execute();
             var result_rows = result.FetchAll();
 
-            if (result_rows?.Any() != true)
+            if (result_rows?.Any() == true)
             {
                 foreach (var row in result_rows)
                 {
