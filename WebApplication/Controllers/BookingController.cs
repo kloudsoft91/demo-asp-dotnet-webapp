@@ -40,9 +40,9 @@ namespace ParkingWebApplication.Controllers
             {
                 return new OkObjectResult($"No results found for Rego {id}");
             }
-            catch (Exception exc)
+            catch
             {
-                return new BadRequestObjectResult(exc.Message);
+                return new BadRequestObjectResult("Incorrect query to API");
             }
         }
 
@@ -60,9 +60,9 @@ namespace ParkingWebApplication.Controllers
             {
                 return new OkObjectResult($"No results found for Type {id}");
             }
-            catch (Exception exc)
+            catch
             {
-                return new BadRequestObjectResult(exc.Message);
+                return new BadRequestObjectResult("Incorrect query to API");
             }
         }
 
