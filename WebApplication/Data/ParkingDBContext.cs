@@ -10,9 +10,9 @@ namespace ParkingWebApplication.Data
     {
         private static string? _db_hostname = Environment.GetEnvironmentVariable("DBHOST");
         private static string? _db_port = Environment.GetEnvironmentVariable("DBPORT");
-        private static string? _db_user = Environment.GetEnvironmentVariable("DBUSER");
-        private static string? _db_pass = Environment.GetEnvironmentVariable("DBPASS");
-        private static string? _db_name = Environment.GetEnvironmentVariable("DBNAME");
+        private static string? _db_user = Environment.GetEnvironmentVariable("MYSQL_USER");
+        private static string? _db_pass = Environment.GetEnvironmentVariable("MYSQL_PASSWORD");
+        private static string? _db_name = Environment.GetEnvironmentVariable("MYSQL_DATABASE");
         private static string? _connectionString = "server=" + _db_hostname +
                                                    ";port=" + _db_port +
                                                    ";database=" + _db_name +
@@ -25,13 +25,40 @@ namespace ParkingWebApplication.Data
         {
             Console.Write(_connectionString);
             try {
-                Console.Write(new Ping().Send(_db_hostname, 10000).RoundtripTime);
+                Console.WriteLine(new Ping().Send(_db_hostname, 10000).RoundtripTime);
             } catch {
-                Console.Write("Unable to run ping or ping failed");
+                Console.WriteLine("Unable to run ping or ping failed");
             }
-            var session = MySQLX.GetSession(_connectionString);
-            string createTable = "CREATE TABLE IF NOT EXISTS Bookings ( Id  INT NOT NULL AUTO_INCREMENT, Rego LONGTEXT CHARSET utf8mb4, Type LONGTEXT CHARSET utf8mb4, ParkingStart DATETIME, ParkingEnd DATETIME, PRIMARY KEY (Id) ) ENGINE=InnoDB;";
-            var result = session.SQL(createTable.ToString()).Execute();
+            // test db connection and wait till db is ready
+            try
+            {
+                var session = MySQLX.GetSession(_connectionString);
+            }
+            catch
+            {
+                bool connectionFailed = true;
+                int numTries = 0;
+                while (connectionFailed && numTries < 30)
+                {
+                    try
+                    {
+                        var session = MySQLX.GetSession(_connectionString);
+                        session.Close();
+                        connectionFailed = false;
+                    }
+                    catch
+                    {
+                        System.Threading.Thread.Sleep(1000);
+                        numTries += 1;
+                    }
+                }
+                if (connectionFailed)
+                {
+                    throw new DatabaseConnectionException(_connectionString);
+                }
+            }
+            //string createTable = "CREATE TABLE IF NOT EXISTS Bookings ( Id  INT NOT NULL AUTO_INCREMENT, Rego LONGTEXT CHARSET utf8mb4, Type LONGTEXT CHARSET utf8mb4, ParkingStart DATETIME, ParkingEnd DATETIME, PRIMARY KEY (Id) ) ENGINE=InnoDB;";
+            //var result = session.SQL(createTable.ToString()).Execute();
         }
 
         public List<ParkingBooking> AllBookings()

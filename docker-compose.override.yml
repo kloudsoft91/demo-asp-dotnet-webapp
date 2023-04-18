@@ -1,13 +1,30 @@
-version: '3.4'
+version: '3.7'
+
+x-common-variables: &common-variables
+  MYSQL_DATABASE: "ParkingDB"
+  MYSQL_USER: "db_user"
+  MYSQL_PASSWORD: "Passw0rd!@"
 
 services:
-  parkingwebapplication:
+  parkingdb:
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:443;http://+:80
+      <<: *common-variables
+      MYSQL_ROOT_PASSWORD: "Passw0rd!@#$"
+    networks:
+      - appnetwork
+  parkingwebapplication:
+    links:
+      - "parkingdb:appdb"
+    networks:
+      - appnetwork
+    environment:
+      <<: *common-variables
+      DBHOST: "appdb"
+      DBPORT: 33060
+      #ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_URLS: "http://+:80"
     ports:
-      - "80"
-      - "443"
+      - "8080:80"
     volumes:
       - ~/.aspnet/https:/root/.aspnet/https:ro
       - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro

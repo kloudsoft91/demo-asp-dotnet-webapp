@@ -1,8 +1,18 @@
 version: '3.4'
 
 services:
+  parkingdb:
+    image: ${DOCKER_REGISTRY-}parkingdb
+    build:
+      context: .
+      dockerfile: MysqlDB/Dockerfile
   parkingwebapplication:
     image: ${DOCKER_REGISTRY-}parkingwebapplication
     build:
       context: .
       dockerfile: WebApplication/Dockerfile
+    depends_on:
+      - parkingdb
+networks:
+  appnetwork:
+    name: app_network

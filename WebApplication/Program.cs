@@ -1,30 +1,48 @@
 using System.Configuration;
+using Google.Protobuf.WellKnownTypes;
 using ParkingWebApplication.Data;
+using ParkingWebApplication.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+string dbConnectionString = "";
 
-builder.Services.AddControllersWithViews();
-
-builder.Services.AddMvc();
-builder.Services.Add(new ServiceDescriptor(typeof(ParkingDBContext), new ParkingDBContext()));
-
-var app = builder.Build();
-
-if (!app.Environment.IsDevelopment())
+try
 {
-    app.UseExceptionHandler("/Home/Error");
-    app.UseHsts();
+    builder.Services.AddControllersWithViews();
+
+    builder.Services.AddMvc();
+    builder.Services.Add(new ServiceDescriptor(typeof(ParkingDBContext), new ParkingDBContext()));
 }
+catch (DatabaseConnectionException exc)
+{
+    dbConnectionString = exc._connectionString;
+}
+finally
+{
+    var app = builder.Build();
 
-app.UseHttpsRedirection();
-app.UseStaticFiles();
+    if (!app.Environment.IsDevelopment())
+    {
+        app.UseExceptionHandler("/Home/Error");
+        app.UseHsts();
+    }
 
-app.UseRouting();
+    if (dbConnectionString != "")
+    {
+        app.UseExceptionHandler("/Home/DatabaseError");
+        app.UseHsts();
+    }
 
-app.UseAuthorization();
+    app.UseHttpsRedirection();
+    app.UseStaticFiles();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    app.UseRouting();
 
-app.Run();
+    app.UseAuthorization();
+
+    app.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}");
+
+    app.Run();
+}

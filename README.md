@@ -50,11 +50,11 @@ The minimal required environment variables are:
 
 `DBPORT` - The port to use the db connection, note: this project uses the MYSQLX plugin to interact with mysql, which defaults on 33060 (not 3306)
 
-`DBUSER` - The username to use for the db connection
+`MYSQL_USER` - The username to use for the db connection
 
-`DBPASS` - The password for the database user
+`MYSQL_PASSWORD` - The password for the database user
 
-`DBNAME` - The name of the database to connect to
+`MYSQL_DATABASE` - The name of the database to connect to
 
 `ASPNETCORE_URLS` - The url:port the app should be using/listening on, e.g. value: http://*:8080
 
