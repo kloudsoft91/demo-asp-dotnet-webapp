@@ -1,4 +1,4 @@
-FROM docker.io/mysql:latest
+FROM registry.redhat.io/rhel9/mysql-80
 
 ADD MysqlDB/schema.sql /docker-entrypoint-initdb.d
 
