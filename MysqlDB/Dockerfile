@@ -1,5 +1,5 @@
-FROM registry.redhat.io/rhel9/mysql-80
+FROM docker.io/mysql:latest
 
-ADD MysqlDB/schema.sql mysql-init
+ADD MysqlDB/schema.sql /docker-entrypoint-initdb.d
 
 EXPOSE 33060
